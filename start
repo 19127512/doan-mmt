@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+
+python manage.py makemigrations
+python manage.py migrate
+echo "from django.contrib.auth import get_user_model; User = get_user_model();_ = User.objects.create_superuser(username='tsolution', email='info@t-solution.vn', password='http') if not User.objects.filter(is_superuser=True).exists() else None" | python manage.py shell
+python manage.py runserver 0.0.0.0:8000
